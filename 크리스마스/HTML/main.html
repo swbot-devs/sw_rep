@@ -229,7 +229,7 @@ button {
         <h3>관리자</h3>
 
         <div id="pwArea">
-            <input type="password" id="adminPw" placeholder="비밀번호">
+            <input inputmode="numeric" type="password" id="adminPw" placeholder="비밀번호">
             <br>
             <button onclick="checkPw()">확인</button>
             <button onclick="closeAdmin()">닫기</button>
@@ -248,7 +248,7 @@ button {
         <div id="editArea" class="hidden">
             <h4>기록 수정</h4>
 
-            <input id="editCode" maxlength="5" placeholder="학번 입력">
+            <input inputmode="numeric" id="editCode" maxlength="5" placeholder="학번 입력">
             <br>
 
             <button class="btn-main" onclick="openEditChoice()">수정</button>
@@ -266,7 +266,7 @@ button {
             </button>
 
             <p style="margin:15px 0 5px;">변경할 학번</p>
-            <input id="newCode" maxlength="5" placeholder="00000">
+            <input inputmode="numeric" id="newCode" maxlength="5" placeholder="00000">
 
             <button class="btn-main" onclick="changeCode()">학번 변경</button>
 
@@ -278,7 +278,7 @@ button {
             <p><b>어떻게 수정할까요?</b></p>
             <button onclick="enableRetry()">다시 참여 가능하게</button>
             <br>
-            <input id="newCode" maxlength="5" placeholder="변경할 학번">
+            <input inputmode="numeric" id="newCode" maxlength="5" placeholder="변경할 학번">
             <br>
             <button onclick="changeCode()">학번 변경</button>
             <br><br>
