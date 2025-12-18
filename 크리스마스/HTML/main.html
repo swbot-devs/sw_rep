@@ -408,6 +408,77 @@ function resetAll() {
     closeAdmin();
 }
 
+function openEdit() {
+    document.getElementById("adminMenu").classList.add("hidden");
+    document.getElementById("editArea").classList.remove("hidden");
+}
+
+/* 기록 수정 선택 */
+function openEditChoice() {
+    const target = document.getElementById("editCode").value;
+    const codes = getCodes();
+
+    if (!/^\d{5}$/.test(target)) {
+        alert("5자리 학번을 입력하세요");
+        return;
+    }
+
+    if (!codes.includes(target)) {
+        alert("해당 학번 기록이 없습니다");
+        return;
+    }
+
+    document.getElementById("editArea").classList.add("hidden");
+    document.getElementById("editChoice").classList.remove("hidden");
+}
+
+/* 기록 삭제 */
+function deleteOne() {
+    const target = document.getElementById("editCode").value;
+    let codes = getCodes();
+
+    if (!codes.includes(target)) {
+        alert("해당 학번이 없습니다");
+        return;
+    }
+
+    if (!confirm("삭제할까요?")) return;
+
+    setCodes(codes.filter(c => c !== target));
+    alert("삭제 완료");
+    closeAdmin();
+}
+
+/* 다시 참여 가능 */
+function enableRetry() {
+    let codes = getCodes();
+    setCodes(codes.filter(c => c !== document.getElementById("editCode").value));
+
+    alert("다시 참여 가능하게 수정되었습니다");
+    closeAdmin();
+}
+
+/* 학번 변경 */
+function changeCode() {
+    const oldCode = document.getElementById("editCode").value;
+    const newCode = document.getElementById("newCode").value;
+    let codes = getCodes();
+
+    if (!/^\d{5}$/.test(newCode)) {
+        alert("변경할 학번은 5자리 숫자여야 합니다");
+        return;
+    }
+
+    if (codes.includes(newCode)) {
+        alert("이미 등록된 학번입니다");
+        return;
+    }
+
+    setCodes(codes.filter(c => c !== oldCode).concat(newCode));
+    alert("학번이 수정되었습니다");
+    closeAdmin();
+}
+
 /* 결과 취합 */
 function openResult() {
     document.getElementById("adminMenu").classList.add("hidden");
@@ -472,3 +543,4 @@ function downloadCSV() {
 
 </body>
 </html>
+
