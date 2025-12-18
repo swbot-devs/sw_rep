@@ -415,6 +415,8 @@ function openEdit() {
 
 /* 기록 수정 선택 */
 function openEditChoice() {
+/* 기록 수정 선택 */
+function openEditChoice() {
     const target = document.getElementById("editCode").value;
     const codes = getCodes();
 
@@ -423,7 +425,11 @@ function openEditChoice() {
         return;
     }
 
-    if (!codes.includes(target)) {
+    // [수정됨] 객체 안의 code 속성과 비교해야 합니다.
+    // includes() -> some()으로 변경
+    const exists = codes.some(item => item.code === target);
+
+    if (!exists) {
         alert("해당 학번 기록이 없습니다");
         return;
     }
@@ -437,14 +443,19 @@ function deleteOne() {
     const target = document.getElementById("editCode").value;
     let codes = getCodes();
 
-    if (!codes.includes(target)) {
+    // [수정됨] 존재 여부 확인 로직 변경
+    const exists = codes.some(item => item.code === target);
+
+    if (!exists) {
         alert("해당 학번이 없습니다");
         return;
     }
 
     if (!confirm("삭제할까요?")) return;
 
-    setCodes(codes.filter(c => c !== target));
+    // [수정됨] 삭제 로직 변경: 객체의 code가 target과 다른 것만 남김
+    setCodes(codes.filter(item => item.code !== target));
+    
     alert("삭제 완료");
     closeAdmin();
 }
@@ -452,7 +463,10 @@ function deleteOne() {
 /* 다시 참여 가능 */
 function enableRetry() {
     let codes = getCodes();
-    setCodes(codes.filter(c => c !== document.getElementById("editCode").value));
+    const target = document.getElementById("editCode").value;
+
+    // [수정됨] 필터링 로직 변경
+    setCodes(codes.filter(item => item.code !== target));
 
     alert("다시 참여 가능하게 수정되었습니다");
     closeAdmin();
@@ -469,15 +483,24 @@ function changeCode() {
         return;
     }
 
-    if (codes.includes(newCode)) {
+    // [수정됨] 중복 확인 로직 변경
+    if (codes.some(item => item.code === newCode)) {
         alert("이미 등록된 학번입니다");
         return;
     }
 
-    setCodes(codes.filter(c => c !== oldCode).concat(newCode));
+    // [수정됨] 데이터 변경 로직 수정
+    // 1. 기존 학번 삭제
+    let newCodes = codes.filter(item => item.code !== oldCode);
+    
+    // 2. 새 학번 추가 (객체 형태로 추가해야 함!)
+    newCodes.push({ code: newCode, time: Date.now() });
+
+    setCodes(newCodes);
     alert("학번이 수정되었습니다");
     closeAdmin();
 }
+
 
 /* 결과 취합 */
 function openResult() {
@@ -543,5 +566,6 @@ function downloadCSV() {
 
 </body>
 </html>
+
 
 
