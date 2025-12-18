@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>🎄 향일고등학교 제14대 학생자치회 크리스마스</title>
+
+<style>
+/* 폰트 등록 */
+/* Cafe24 폰트 */
+@font-face {
+    font-family: 'Cafe24Ssurround';
+    src: url('Cafe24Ssurround-v2.0.woff2') format('woff2'),
+         url('Cafe24Ssurround-v2.0.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Paperlogy 폰트 (크레딧용) */
+@font-face {
+    font-family: 'Paperlogy';
+    src: url('Paperlogy-5Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/* 기본 */
+body {
+    margin: 0;
+    font-family: 'Cafe24Ssurround', sans-serif;
+    background: linear-gradient(#0b3d2e, #145a32);
+    color: white;
+    text-align: center;
+    height: 100vh;
+}
+
+.container {
+    padding-top: 120px;
+}
+
+
+/* 공통 요소 */
+h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+input {
+    font-size: 28px;
+    padding: 12px;
+    width: 220px;
+    text-align: center;
+    border-radius: 10px;
+    border: none;
+    font-family: inherit;
+}
+
+button {
+    font-size: 22px;
+    padding: 12px 30px;
+    margin-top: 15px;
+    border-radius: 30px;
+    border: none;
+    background: #e74c3c;
+    color: white;
+    font-family: inherit;
+}
+
+.hidden {
+    display: none;
+}
+
+
+/* 결과 화면 */
+.result {
+    font-size: 60px;
+    margin-top: 50px;
+}
+
+.countdown {
+    margin-top: 15px;
+    font-size: 18px;
+    opacity: 0.8;
+    animation: jump 1s infinite;
+}
+
+
+/* 관리자 버튼 */
+#adminBtn {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    padding: 6px;
+    box-shadow: 0 0 10px rgba(255,255,255,0.6);
+}
+
+#adminBtn img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+
+/* 관리자 패널 */
+#adminPanel {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    display: none;
+}
+
+#adminBox {
+    position: relative;
+    background: white;
+    color: black;
+    width: 300px;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 150px auto;
+}
+
+#closeX {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #555;
+}
+
+
+/* 관리자 버튼 스타일 */
+.btn-main {
+    background: #e74c3c;
+    color: white;
+    font-size: 20px;
+    padding: 14px;
+    width: 100%;
+    border-radius: 30px;
+    border: none;
+    margin-top: 10px;
+}
+
+.btn-close {
+    background: #888;
+    color: white;
+    font-size: 18px;
+    padding: 12px;
+    width: 100%;
+    border-radius: 30px;
+    border: none;
+}
+
+.btn-close:hover {
+    background: #555;
+}
+
+
+/* 애니메이션 */
+@keyframes jump {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-4px); }
+    100% { transform: translateY(0); }
+}
+
+
+/* 제작자 표시 */
+#credit {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    font-size: 18px;
+    opacity: 0.95;
+    text-align: left;
+    font-family: 'Paperlogy', sans-serif;
+}
+
+#credit .name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffd966;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div class="container" id="inputScreen">
+    <h1>🎄 크리스마스 보물찾기 🎄</h1>
+    <h2>학번을 입력하세요</h2>
+    <input id="code" maxlength="5" placeholder="00000">
+    <br>
+    <button onclick="saveCode()">확인</button>
+</div>
+
+<div class="container hidden" id="successScreen">
+    <div class="result">🎁<br>저장되었습니다.</div>
+    <p id="countdownSuccess" class="countdown">3초 후 돌아갑니다.</p>
+    <button onclick="goHome()">돌아가기</button>
+</div>
+
+
+<div class="container hidden" id="failScreen">
+    <div class="result">❌<br>이미 참여함</div>
+    <p id="countdownFail" class="countdown">3초 후 돌아갑니다.</p>
+    <button onclick="goHome()">돌아가기</button>
+</div>
+
+
+<!-- 관리자 버튼 -->
+<button id="adminBtn" onclick="openAdmin()">
+    <img src="향일고등학교.png" alt="설정">
+</button>
+
+<!-- 관리자 패널 -->
+<div id="adminPanel">
+    <div id="adminBox">
+        <button id="closeX" onclick="closeAdmin()">✕</button>
+        <h3>관리자</h3>
+
+        <div id="pwArea">
+            <input type="password" id="adminPw" placeholder="비밀번호">
+            <br>
+            <button onclick="checkPw()">확인</button>
+            <button onclick="closeAdmin()">닫기</button>
+        </div>
+
+        <div id="adminMenu" class="hidden">
+            <button onclick="resetAll()">전체 초기화</button>
+            <br><br>
+            <button onclick="openEdit()">기록 수정</button>
+            <br><br>
+            <button onclick="openResult()">결과 취합</button>
+            <br><br>
+            <button class="btn-close" onclick="closeAdmin()">닫기</button>
+        </div>
+
+        <div id="editArea" class="hidden">
+            <h4>기록 수정</h4>
+
+            <input id="editCode" maxlength="5" placeholder="학번 입력">
+            <br>
+
+            <button class="btn-main" onclick="openEditChoice()">수정</button>
+            <button class="btn-main" onclick="deleteOne()">삭제</button>
+
+            <br><br>
+            <button class="btn-close" onclick="closeAdmin()">닫기</button>
+        </div>
+
+        <div id="editChoice" class="hidden">
+            <p><b>어떻게 수정할까요?</b></p>
+
+            <button class="btn-main" onclick="enableRetry()">
+                다시 참여 가능하게
+            </button>
+
+            <p style="margin:15px 0 5px;">변경할 학번</p>
+            <input id="newCode" maxlength="5" placeholder="00000">
+
+            <button class="btn-main" onclick="changeCode()">학번 변경</button>
+
+            <br><br>
+            <button class="btn-close" onclick="backToEdit()">취소</button>
+        </div>
+
+        <div id="editChoice" class="hidden">
+            <p><b>어떻게 수정할까요?</b></p>
+            <button onclick="enableRetry()">다시 참여 가능하게</button>
+            <br>
+            <input id="newCode" maxlength="5" placeholder="변경할 학번">
+            <br>
+            <button onclick="changeCode()">학번 변경</button>
+            <br><br>
+            <button class="btn-close" onclick="closeAdmin()">취소</button>
+        </div>
+
+        <div id="resultArea" class="hidden">
+            <h4>결과 취합</h4>
+
+            <div id="resultList"
+                style="max-height:300px; overflow:auto; font-size:14px; text-align:left;">
+            </div>
+
+            <button class="btn-main" onclick="copyResult()">복사하기</button>
+            <button class="btn-main" onclick="downloadCSV()">CSV 파일 다운로드</button>
+            <br><br>
+            <button class="btn-close" onclick="closeAdmin()">닫기</button>
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+const ADMIN_PASSWORD = "8180";
+
+/* 저장 데이터 */
+function getCodes() {
+    return JSON.parse(localStorage.getItem("codes")) || [];
+}
+function setCodes(codes) {
+    localStorage.setItem("codes", JSON.stringify(codes));
+}
+
+/* 저장 */
+function saveCode() {
+    const code = document.getElementById("code").value;
+
+    if (!/^\d{5}$/.test(code)) {
+        alert("5자리 숫자만 입력하세요");
+        return;
+    }
+
+    const codes = getCodes();
+    if (codes.some(c => c.code === code)) {
+        show("fail");
+        return;
+    }
+
+    codes.push({ code, time: Date.now() });
+    setCodes(codes);
+    show("success");
+}
+
+/* 화면 전환 */
+let timer = null;
+
+function show(type) {
+    ["input","success","fail"].forEach(id =>
+        document.getElementById(id + "Screen").classList.add("hidden")
+    );
+    document.getElementById(type + "Screen").classList.remove("hidden");
+
+    if (type !== "input") startCountdown(type);
+}
+
+function startCountdown(type) {
+    let count = 15;
+    const el = document.getElementById(
+        type === "success" ? "countdownSuccess" : "countdownFail"
+    );
+
+    clearInterval(timer);
+    el.textContent = `${count}초 후 돌아갑니다.`;
+
+    timer = setInterval(() => {
+        count--;
+        el.textContent = `${count}초 후 돌아갑니다.`;
+        if (count === 0) {
+            clearInterval(timer);
+            goHome();
+        }
+    }, 1000);
+}
+
+function goHome() {
+    document.getElementById("code").value = "";
+    show("input");
+}
+
+/* 관리자 UI 초기화 */
+function resetAdminUI() {
+    document.getElementById("adminPanel").style.display = "none";
+    ["pwArea","adminMenu","editArea","editChoice","resultArea"]
+        .forEach(id => document.getElementById(id).classList.add("hidden"));
+    ["adminPw","editCode","newCode"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+    });
+}
+
+function openAdmin() {
+    resetAdminUI();
+    document.getElementById("adminPanel").style.display = "block";
+    document.getElementById("pwArea").classList.remove("hidden");
+}
+
+function closeAdmin() {
+    resetAdminUI();
+}
+
+/* 관리자 로그인 */
+function checkPw() {
+    if (document.getElementById("adminPw").value !== ADMIN_PASSWORD) {
+        alert("비밀번호 오류");
+        return;
+    }
+    document.getElementById("pwArea").classList.add("hidden");
+    document.getElementById("adminMenu").classList.remove("hidden");
+}
+
+/* 전체 초기화 */
+function resetAll() {
+    if (!confirm("모두 초기화할까요?")) return;
+    localStorage.removeItem("codes");
+    alert("초기화 완료");
+    closeAdmin();
+}
+
+/* 결과 취합 */
+function openResult() {
+    document.getElementById("adminMenu").classList.add("hidden");
+    document.getElementById("resultArea").classList.remove("hidden");
+
+    const list = document.getElementById("resultList");
+    const codes = getCodes();
+
+    if (codes.length === 0) {
+        list.textContent = "아직 입력된 기록이 없습니다.";
+        return;
+    }
+
+    list.innerHTML =
+        "학번 / 입력 시각<br>" +
+        codes.map(c => {
+            const d = new Date(c.time);
+            const time =
+                `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")} ` +
+                `${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}:${String(d.getSeconds()).padStart(2,"0")}`;
+
+            return `${c.code}  ${time}`;
+        }).join("<br>");
+
+}
+
+function copyResult() {
+    navigator.clipboard.writeText(
+        document.getElementById("resultList").innerText
+    );
+    alert("복사 완료");
+}
+
+function downloadCSV() {
+    const codes = getCodes();
+    if (codes.length === 0) return alert("기록이 없습니다");
+
+    let csv = "학번,입력시각\n";
+    codes.forEach(c => {
+        const d = new Date(c.time);
+        const t =
+            `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")} ` +
+            `${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}:${String(d.getSeconds()).padStart(2,"0")}`;
+        csv += `${c.code},${t}\n`;
+    });
+
+    const blob = new Blob(["\uFEFF"+csv], { type:"text/csv;charset=utf-8;" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "보물찾기 리스트.csv";
+    a.click();
+}
+
+</script>
+
+
+<div id="credit">
+    향일고등학교 제14대 학생자치회 &lt;정보기록실&gt;
+    <span class="name">이성원</span>
+</div>
+
+
+</body>
+</html>
