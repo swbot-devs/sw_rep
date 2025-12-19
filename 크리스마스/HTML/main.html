@@ -363,7 +363,8 @@ button {
             <button class="btn-main" onclick="deleteOne()">삭제</button>
             <br><br>
 
-            <button class="btn-close" onclick="closeAdmin()">닫기</button>
+            <button class="btn-close" onclick="closeAdmin()" style="width: 45%">이전</button>
+            <button class="btn-close" onclick="closeAdmin()" style="width: 45%">닫기</button>
         </div>
 
         <div id="editChoice" class="hidden">
@@ -377,7 +378,8 @@ button {
             <button class="btn-main" onclick="changeCode()">학번 변경</button>
             <br><br>
 
-            <button class="btn-close" onclick="closeAdmin()">닫기</button>
+            <button class="btn-close" onclick="closeAdmin()" style="width: 45%">이전</button>
+            <button class="btn-close" onclick="closeAdmin()" style="width: 45%">닫기</button>
         </div>
 
         <div id="resultArea" class="hidden">
@@ -388,7 +390,9 @@ button {
             <button class="btn-main" onclick="copyResult()">복사하기</button>
             <button class="btn-main" onclick="downloadCSV()">CSV 파일 다운로드</button>
             <br><br>
-            <button class="btn-close" onclick="closeAdmin()">닫기</button>
+
+            <button class="btn-close" onclick="closeAdmin()" style="width: 45%">이전</button>
+            <button class="btn-close" onclick="closeAdmin()" style="width: 45%">닫기</button>
         </div>
     </div>
 </div>
@@ -558,6 +562,17 @@ function resetAll() {
     closeAdmin();
 }
 
+/* 관리자 메인 메뉴로 돌아가는 함수 */
+function backToMenu() {
+    // 현재 열려있는 하위 화면들을 숨김
+    document.getElementById("editArea").classList.add("hidden");
+    document.getElementById("resultArea").classList.add("hidden");
+    document.getElementById("editChoice").classList.add("hidden");
+    
+    // 메인 메뉴 화면을 다시 보여줌
+    document.getElementById("adminMenu").classList.remove("hidden");
+}
+    
 function openEdit() {
     document.getElementById("adminMenu").classList.add("hidden");
     document.getElementById("editArea").classList.remove("hidden");
@@ -706,4 +721,5 @@ function downloadCSV() {
 
 
 </body>
+
 </html>
