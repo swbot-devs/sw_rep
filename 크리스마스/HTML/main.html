@@ -562,15 +562,20 @@ function resetAll() {
     closeAdmin();
 }
 
-/* 관리자 메인 메뉴로 돌아가는 함수 */
+/* [수정됨] 관리자 메인 메뉴로 돌아가는 함수 */
 function backToMenu() {
-    // 현재 열려있는 하위 화면들을 숨김
-    document.getElementById("editArea").classList.add("hidden");
-    document.getElementById("resultArea").classList.add("hidden");
-    document.getElementById("editChoice").classList.add("hidden");
-    
-    // 메인 메뉴 화면을 다시 보여줌
-    document.getElementById("adminMenu").classList.remove("hidden");
+    // 1. 모든 하위 창(수정, 결과, 선택, 비번입력 등)을 다 숨깁니다.
+    const ids = ["editArea", "resultArea", "editChoice", "pwArea"];
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add("hidden");
+    });
+
+    // 2. 메인 메뉴만 확실하게 보여줍니다.
+    const menu = document.getElementById("adminMenu");
+    if (menu) {
+        menu.classList.remove("hidden");
+    }
 }
     
 function openEdit() {
@@ -723,3 +728,4 @@ function downloadCSV() {
 </body>
 
 </html>
+
