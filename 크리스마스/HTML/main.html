@@ -562,12 +562,19 @@ function resetAll() {
     closeAdmin();
 }
 
-/* 관리자 메인 메뉴로 돌아가는 함수 */
+/* [수정됨] 관리자 메인 메뉴로 돌아가기 (resetAdminUI 참고) */
 function backToMenu() {
-    resetAdminUI();
-    
-    // 메인 메뉴 화면을 다시 보여줌
-    document.getElementById("adminMenu").classList.remove("hidden");
+    // 1. 하위 화면들(비번, 수정, 결과, 선택 등)을 모두 숨김 리스트에 포함
+    ["pwArea", "editArea", "editChoice", "resultArea"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add("hidden");
+    });
+
+    // 2. 관리자 메인 메뉴(adminMenu)만 숨김 해제하여 표시
+    const menu = document.getElementById("adminMenu");
+    if (menu) {
+        menu.classList.remove("hidden");
+    }
 }
     
 function openEdit() {
@@ -720,6 +727,7 @@ function downloadCSV() {
 </body>
 
 </html>
+
 
 
 
