@@ -73,67 +73,6 @@ body {
 }
 
 
-#finishOverlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.85);
-    z-index: 9999;
-    display: none;
-    justify-content: center;
-    align-items: center;
-}
-
-.popup-box {
-    background: white;
-    width: 500px;
-    border-radius: 25px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-    overflow: hidden;
-    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    text-align: center;
-    font-family: 'Paperlogy', sans-serif; 
-}
-
-.popup-header {
-    background: #007bff;
-    color: white;
-    padding: 30px;
-    font-size: 32px;
-    font-weight: 700;
-}
-
-.popup-content {
-    padding: 60px 40px;
-    color: #111;
-    font-size: 32px;
-    line-height: 1.6;
-    word-break: keep-all;
-}
-
-.popup-btn {
-    background: #343a40;
-    color: white;
-    border: none;
-    padding: 18px 80px;
-    margin-bottom: 40px;
-    font-size: 22px;
-    cursor: pointer;
-    border-radius: 12px;
-    font-family: 'Paperlogy', sans-serif;
-    transition: all 0.2s;
-}
-
-.popup-btn:hover {
-    background: #000;
-    transform: scale(1.05);
-}
-
-@keyframes popIn {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-
-
 /* 공통 요소 */
 h1 {
     font-size: 42px;
@@ -177,12 +116,6 @@ button {
     font-size: 18px;
     opacity: 0.8;
     animation: jump 1s infinite;
-}
-
-@keyframes jump {
-    0%   { transform: translateY(0); }
-    50%  { transform: translateY(-4px); }
-    100% { transform: translateY(0); }
 }
 
 
@@ -265,6 +198,14 @@ button {
 }
 
 
+/* 애니메이션 */
+@keyframes jump {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-4px); }
+    100% { transform: translateY(0); }
+}
+
+
 /* 제작자 표시 */
 #credit {
     position: fixed;
@@ -281,15 +222,16 @@ button {
     font-weight: bold;
     color: #ffd966;
 }
+
+
 </style>
 </head>
 
-
 <body>
 
-<div id="clock"></div>
+<div id="clock"></div> <!-- 현재 시간 -->
 
-<div id="treasureCount"></div>
+<div id="treasureCount"></div> <!-- 보물 개수 카운트 -->
 
 <div class="container" id="inputScreen">
     <h1>🎄 크리스마스 보물찾기 🎄</h1>
@@ -313,19 +255,6 @@ button {
 </div>
 
 
-<div id="finishOverlay" class="hidden">
-    <div class="popup-box">
-        <div class="popup-header">보물찾기 종료 안내</div>
-        <div class="popup-content">
-            축하합니다! 🎉<br>
-            마지막 보물을 찾았습니다.<br>
-            <span style="font-size:20px; color:#666;">(보물찾기 이벤트가 마감되었습니다.)</span>
-        </div>
-        <button class="popup-btn" onclick="closeFinishPopup()">확인 ✕</button>
-    </div>
-</div>
-
-
 <!-- 관리자 버튼 -->
 <button id="adminBtn" onclick="openAdmin()">
     <img src="향일고등학교.png" alt="설정">
@@ -335,7 +264,7 @@ button {
 <div id="adminPanel">
     <div id="adminBox">
         <button id="closeX" onclick="closeAdmin()">✕</button>
-        <h2>관리자</h2>
+        <h3>관리자</h3>
 
         <div id="pwArea">
             <input inputmode="numeric" type="password" id="adminPw" placeholder="비밀번호">
@@ -345,34 +274,36 @@ button {
         </div>
 
         <div id="adminMenu" class="hidden">
-            <button class="btn-main" onclick="resetAll()">전체 초기화</button>
+            <button onclick="resetAll()">전체 초기화</button>
             <br><br>
-            <button class="btn-main" onclick="openEdit()">기록 수정</button>
+            <button onclick="openEdit()">기록 수정</button>
             <br><br>
-            <button class="btn-main" onclick="openResult()">결과 취합</button>
+            <button onclick="openResult()">결과 취합</button>
             <br><br>
             <button class="btn-close" onclick="closeAdmin()">닫기</button>
         </div>
 
         <div id="editArea" class="hidden">
-            <h3>기록 수정</h3>
+            <h4>기록 수정</h4>
 
             <input inputmode="numeric" id="editCode" maxlength="5" placeholder="학번 입력">
             <br>
 
             <button class="btn-main" onclick="openEditChoice()">수정</button>
             <button class="btn-main" onclick="deleteOne()">삭제</button>
-            <br><br>
 
+            <br><br>
             <button class="btn-close" onclick="closeAdmin()">닫기</button>
         </div>
 
         <div id="editChoice" class="hidden">
             <p><b>어떻게 수정할까요?</b></p>
 
-            <button class="btn-main" onclick="enableRetry()">다시 참여 가능하게</button>
+            <button class="btn-main" onclick="enableRetry()">
+                다시 참여 가능하게
+            </button>
 
-            <p>변경할 학번</p>
+            <p style="margin:15px 0 5px;">변경할 학번</p>
             <input inputmode="numeric" id="newCode" maxlength="5" placeholder="00000">
 
             <button class="btn-main" onclick="changeCode()">학번 변경</button>
@@ -382,9 +313,11 @@ button {
         </div>
 
         <div id="resultArea" class="hidden">
-            <h3>결과 취합</h3>
+            <h4>결과 취합</h4>
 
-            <div id="resultList" style="max-height:300px; overflow:auto; font-size:14px; text-align:left;"></div>
+            <div id="resultList"
+                style="max-height:300px; overflow:auto; font-size:14px; text-align:left;">
+            </div>
 
             <button class="btn-main" onclick="copyResult()">복사하기</button>
             <button class="btn-main" onclick="downloadCSV()">CSV 파일 다운로드</button>
@@ -396,7 +329,7 @@ button {
 
 <script>
 const ADMIN_PASSWORD = "8180"; /* 관리자 비밀번호 */
-const TOTAL_TREASURE = 40; /* 총 보물 개수 */
+const TOTAL_TREASURE = 40; /* 총 보물 개수
 
 /* 현재 시간 */
 function updateClock() {
@@ -449,7 +382,7 @@ function saveCode() {
     show("success");
 }
 
-/* 초기화면 돌아가기 (15초) */
+/* 화면 전환 (초기화면 돌아가기, 15초) */
 let timer = null;
 
 function show(type) {
@@ -484,40 +417,6 @@ function goHome() {
     document.getElementById("code").value = "";
     show("input");
 }
-
-
-/* 보물 개수 업데이트*/
-function updateTreasureCount() {
-    const found = getCodes().length;
-    const remain = Math.max(TOTAL_TREASURE - found, 0);
-
-    const foundStr = String(found).padStart(2, '0');
-    const remainStr = String(remain).padStart(2, '0');
-
-    const countEl = document.getElementById("treasureCount");
-    if (countEl) {
-        countEl.innerHTML = `찾은 보물 개수: ${foundStr}<br>남은 보물 개수: ${remainStr}`;
-    }
-
-    // 남은 보물이 0개일 때 팝업 표시
-    if (remain === 0) {
-        const overlay = document.getElementById("finishOverlay");
-        if (overlay) {
-            overlay.style.display = "flex";
-            overlay.classList.remove("hidden");
-        }
-    }
-}
-
-/* 팝업 닫기 함수 */
-function closeFinishPopup() {
-    const overlay = document.getElementById("finishOverlay");
-    if (overlay) {
-        overlay.style.display = "none";
-        overlay.classList.add("hidden");
-    }
-}
-
 
 /* 관리자 UI 초기화 */
 function resetAdminUI() {
