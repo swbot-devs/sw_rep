@@ -564,9 +564,7 @@ function resetAll() {
 
 /* 관리자 메인 메뉴로 돌아가는 함수 */
 function backToMenu() {
-    // 현재 열려있는 하위 화면들을 숨김
-    document.getElementById("editArea").classList.add("hidden");
-    document.getElementById("resultArea").classList.add("hidden");
+    resetAdminUI
     
     // 메인 메뉴 화면을 다시 보여줌
     document.getElementById("adminMenu").classList.remove("hidden");
@@ -722,5 +720,6 @@ function downloadCSV() {
 </body>
 
 </html>
+
 
 
