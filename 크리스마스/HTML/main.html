@@ -394,7 +394,14 @@ button {
         <div id="resultArea" class="hidden">
             <h3>결과 취합</h3>
 
-            <div id="resultList" style="font-family:'GothicA1'; max-height:300px; overflow:auto; font-size:18px; text-align:left;"></div>
+            <div id="resultList"
+                style="font-family:'GothicA1';
+                overflow:auto;
+                font-size:16px;
+                line-height: 1.6;
+                max-height: 12em;
+                text-align:left;">
+            </div>
 
             <button class="btn-main" onclick="copyResult()">복사하기</button>
             <button class="btn-main" onclick="downloadCSV()">CSV 파일 다운로드</button>
@@ -736,6 +743,7 @@ function downloadCSV() {
 </body>
 
 </html>
+
 
 
 
