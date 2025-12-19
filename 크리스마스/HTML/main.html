@@ -363,7 +363,7 @@ button {
             <button class="btn-main" onclick="deleteOne()">삭제</button>
             <br><br>
 
-            <button class="btn-close" onclick="closeAdmin()" style="width: 45%">이전</button>
+            <button class="btn-close" onclick="backToMenu()" style="width: 45%">이전</button>
             <button class="btn-close" onclick="closeAdmin()" style="width: 45%">닫기</button>
         </div>
 
@@ -378,7 +378,7 @@ button {
             <button class="btn-main" onclick="changeCode()">학번 변경</button>
             <br><br>
 
-            <button class="btn-close" onclick="closeAdmin()" style="width: 45%">이전</button>
+            <button class="btn-close" onclick="backToMenu()" style="width: 45%">이전</button>
             <button class="btn-close" onclick="closeAdmin()" style="width: 45%">닫기</button>
         </div>
 
@@ -391,7 +391,7 @@ button {
             <button class="btn-main" onclick="downloadCSV()">CSV 파일 다운로드</button>
             <br><br>
 
-            <button class="btn-close" onclick="closeAdmin()" style="width: 45%">이전</button>
+            <button class="btn-close" onclick="backToMenu()" style="width: 45%">이전</button>
             <button class="btn-close" onclick="closeAdmin()" style="width: 45%">닫기</button>
         </div>
     </div>
@@ -562,20 +562,14 @@ function resetAll() {
     closeAdmin();
 }
 
-/* [수정됨] 관리자 메인 메뉴로 돌아가는 함수 */
+/* 관리자 메인 메뉴로 돌아가는 함수 */
 function backToMenu() {
-    // 1. 모든 하위 창(수정, 결과, 선택, 비번입력 등)을 다 숨깁니다.
-    const ids = ["editArea", "resultArea", "editChoice", "pwArea"];
-    ids.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.classList.add("hidden");
-    });
-
-    // 2. 메인 메뉴만 확실하게 보여줍니다.
-    const menu = document.getElementById("adminMenu");
-    if (menu) {
-        menu.classList.remove("hidden");
-    }
+    // 현재 열려있는 하위 화면들을 숨김
+    document.getElementById("editArea").classList.add("hidden");
+    document.getElementById("resultArea").classList.add("hidden");
+    
+    // 메인 메뉴 화면을 다시 보여줌
+    document.getElementById("adminMenu").classList.remove("hidden");
 }
     
 function openEdit() {
@@ -728,4 +722,5 @@ function downloadCSV() {
 </body>
 
 </html>
+
 
