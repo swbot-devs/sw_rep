@@ -15,13 +15,22 @@
     font-style: normal;
 }
 
-/* Paperlogy 폰트 (크레딧용) */
+/* Paperlogy 폰트 (크레딧 & 마감 팝업) */
 @font-face {
     font-family: 'Paperlogy';
     src: url('Paperlogy-5Medium.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
+
+/* Gothic A1 폰트 (결과 취합) */
+@font-face {
+    font-family: "Gothic A1", sans-serif;
+    src: url('https://fonts.googleapis.com/css2?family=Gothic+A1&display=swap')
+    font-weight: 400;
+    font-style: normal;
+}
+
 
 
 /* 기본 */
@@ -385,7 +394,7 @@ button {
         <div id="resultArea" class="hidden">
             <h3>결과 취합</h3>
 
-            <div id="resultList" style="max-height:300px; overflow:auto; font-size:14px; text-align:left;"></div>
+            <div id="resultList" style="font-family: 'Gothic A1', sans-serif; max-height:300px; overflow:auto; font-size:14px; text-align:left;"></div>
 
             <button class="btn-main" onclick="copyResult()">복사하기</button>
             <button class="btn-main" onclick="downloadCSV()">CSV 파일 다운로드</button>
@@ -727,6 +736,7 @@ function downloadCSV() {
 </body>
 
 </html>
+
 
 
 
