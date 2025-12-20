@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>향일고 제14대 학생자치회</title>
+<link rel="icon" href="향일고등학교.png" type="image/png">
+
+<style>
+/* 폰트 등록 */
+/* Cafe24 폰트 */
+@font-face {
+    font-family: 'Cafe24Ssurround';
+    src: url('Cafe24Ssurround-v2.0.woff2') format('woff2'),
+         url('Cafe24Ssurround-v2.0.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Paperlogy 폰트 (크레딧 & 마감 팝업) */
+@font-face {
+    font-family: 'Paperlogy';
+    src: url('Paperlogy-5Medium.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Gothic A1 폰트 (결과 취합) */
+@font-face {
+    font-family: "GothicA1"
+    src: url('GothicA1-Medium.woff2') format('woff2')
+    font-weight: 500;
+    font-style: normal;
+}
+
+
+
+/* 기본 */
+body {
+    margin: 0;
+    font-family: 'Cafe24Ssurround', sans-serif;
+    background: linear-gradient(#0b3d2e, #145a32);
+    color: white;
+    text-align: center;
+    height: 100vh;
+}
+
+.container {
+    padding-top: 120px;
+}
+
+
+/* 현재 시간 */
+#clock {
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    font-size: 22px;
+    opacity: 0.9;
+}
+
+
+/* 찾은 보물 / 남은 보물 개수 */
+#treasureCount {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    
+    /* 박스 디자인 */
+    background: rgba(0, 0, 0, 0.25);            /* 어두운 반투명 배경 */
+    border: 2px solid rgba(255, 255, 255, 0.4); /* 연한 흰색 테두리 */
+    border-radius: 15px;                          /* 모서리 둥글게 */
+    padding: 12px 20px;                           /* 박스 안쪽 여백 */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);     /* 입체감 있는 그림자 */
+    backdrop-filter: blur(4px);                   /* 배경 흐림 효과 */
+
+    /* 텍스트 스타일 */
+    font-size: 18px;
+    text-align: center;                           /* 텍스트 가운데 정렬 */
+    line-height: 1.6;
+    color: #fff;                                /* 글자색 흰색 */
+    font-weight: bold;                            /* 글자 조금 더 두껍게 */
+    z-index: 100;                                 /* 다른 요소보다 위에 표시 */
+}
+
+
+#finishOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-box {
+    background: white;
+    width: 500px;
+    border-radius: 25px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    overflow: hidden;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: center;
+    font-family: 'Paperlogy', sans-serif; 
+}
+
+.popup-header {
+    background: #007bff;
+    color: white;
+    padding: 30px;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.popup-content {
+    padding: 60px 40px;
+    color: #111;
+    font-size: 32px;
+    line-height: 1.6;
+    word-break: keep-all;
+}
+
+.popup-btn {
+    background: #343a40;
+    color: white;
+    border: none;
+    padding: 18px 80px;
+    margin-bottom: 40px;
+    font-size: 22px;
+    cursor: pointer;
+    border-radius: 12px;
+    font-family: 'Paperlogy', sans-serif;
+    transition: all 0.2s;
+}
+
+.popup-btn:hover {
+    background: #000;
+    transform: scale(1.05);
+}
+
+@keyframes popIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+
+/* 공통 요소 */
+h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+input {
+    font-size: 28px;
+    padding: 12px;
+    width: 220px;
+    text-align: center;
+    border-radius: 10px;
+    border: none;
+    font-family: inherit;
+}
+
+button {
+    font-size: 22px;
+    padding: 12px 30px;
+    margin-top: 15px;
+    border-radius: 30px;
+    border: none;
+    background: #e74c3c;
+    color: white;
+    font-family: inherit;
+}
+
+.hidden {
+    display: none;
+}
+
+
+/* 결과 화면 */
+.result {
+    font-size: 60px;
+    margin-top: 50px;
+}
+
+.countdown {
+    margin-top: 15px;
+    font-size: 18px;
+    opacity: 0.8;
+    animation: jump 1s infinite;
+}
+
+@keyframes jump {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-4px); }
+    100% { transform: translateY(0); }
+}
+
+
+/* 관리자 버튼 */
+#adminBtn {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    padding: 6px;
+    box-shadow: 0 0 10px rgba(255,255,255,0.6);
+}
+
+#adminBtn img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+
+/* 관리자 패널 */
+#adminPanel {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    display: none;
+}
+
+#adminBox {
+    position: relative;
+    background: white;
+    color: black;
+    width: 300px;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 150px auto;
+}
+
+#closeX {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #555;
+}
+
+/* 관리자 버튼 스타일 */
+.btn-main {
+    background: #e74c3c;
+    color: white;
+    font-size: 20px;
+    padding: 14px;
+    width: 100%;
+    border-radius: 30px;
+    border: none;
+    margin-top: 10px;
+}
+
+.btn-close {
+    background: #888;
+    color: white;
+    font-size: 18px;
+    padding: 12px;
+    width: 100%;
+    border-radius: 30px;
+    border: none;
+}
+
+.btn-close:hover {
+    background: #555;
+}
+
+
+/* 제작자 표시 */
+#credit {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    font-size: 18px;
+    opacity: 0.95;
+    text-align: left;
+    font-family: 'Paperlogy', sans-serif;
+}
+
+#credit .name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffd966;
+}
+</style>
+</head>
+
+
+<body>
+
+<div id="clock"></div>
+
+<div id="treasureCount"></div>
+
+<div class="container" id="inputScreen">
+    <h1>🎄 크리스마스 보물찾기 🎄</h1>
+    <h2>학번을 입력하세요</h2>
+    <input inputmode="numeric" id="code" maxlength="5" placeholder="00000"
+    onkeydown="if(event.key === 'Enter') saveCode()">
+    <br>
+    <button onclick="saveCode()">확인</button>
+</div>
+
+<div class="container hidden" id="successScreen">
+    <div class="result">🎁<br>저장되었습니다.</div>
+    <p id="countdownSuccess" class="countdown"></p>
+    <button onclick="goHome()">돌아가기</button>
+</div>
+
+
+<div class="container hidden" id="failScreen">
+    <div class="result">❌<br>이미 참여함</div>
+    <p id="countdownFail" class="countdown"></p>
+    <button onclick="goHome()">돌아가기</button>
+</div>
+
+
+<div id="finishOverlay" class="hidden">
+    <div class="popup-box">
+        <div class="popup-header">보물찾기 종료 안내</div>
+        <div class="popup-content">
+            축하합니다! 🎉<br>
+            마지막 보물을 찾았습니다.<br>
+            <span style="font-size:20px; color:#666;">(보물찾기 이벤트가 종료되었습니다.)</span>
+        </div>
+        <button class="popup-btn" onclick="closeFinishPopup()">확인 ✕</button>
+    </div>
+</div>
+
+
+<!-- 관리자 버튼 -->
+<button id="adminBtn" onclick="openAdmin()">
+    <img src="향일고등학교.png" alt="설정">
+</button>
+
+<!-- 관리자 패널 -->
+<div id="adminPanel">
+    <div id="adminBox">
+        <button id="closeX" onclick="closeAdmin()">✕</button>
+        <h3>관리자</h3>
+
+        <div id="pwArea">
+            <input inputmode="numeric" type="password" id="adminPw" placeholder="비밀번호"
+            onkeydown="if(event.key === 'Enter') checkPw()">
+            <br>
+            <button class="btn-main" onclick="checkPw()" style="width: 45%">확인</button>
+            <button class="btn-close" onclick="closeAdmin()" style="width: 45%">닫기</button>
+        </div>
+
+        <div id="adminMenu" class="hidden">
+            <button class="btn-main" onclick="resetAll()">전체 초기화</button>
+            <br><br>
+            <button class="btn-main" onclick="openEdit()">기록 수정</button>
+            <br><br>
+            <button class="btn-main" onclick="openResult()">결과 취합</button>
+            <br><br>
+            <button class="btn-close" onclick="closeAdmin()">닫기</button>
+        </div>
+
+        <div id="editArea" class="hidden">
+            <h2>기록 수정</h2>
+
+            <input inputmode="numeric" id="editCode" maxlength="5" placeholder="학번 입력">
+            <br>
+
+            <button class="btn-main" onclick="openEditChoice()">수정</button>
+            <button class="btn-main" onclick="deleteOne()">삭제</button>
+            <br><br>
+
+            <button class="btn-close" onclick="backToMenu()" style="width: 45%">이전</button>
+            <button class="btn-close" onclick="closeAdmin()" style="width: 45%">닫기</button>
+        </div>
+
+        <div id="editChoice" class="hidden">
+            <p><b>어떻게 수정할까요?</b></p>
+
+            <button class="btn-main" onclick="enableRetry()">다시 참여 가능하게</button>
+            <br>
+
+            <p>변경할 학번</p>
+            <input inputmode="numeric" id="newCode" maxlength="5" placeholder="00000"
+            onkeydown="if(event.key === 'Enter') changeCode()">
+
+            <button class="btn-main" onclick="changeCode()">학번 변경</button>
+            <br><br>
+
+            <button class="btn-close" onclick="backToMenu()" style="width: 45%">이전</button>
+            <button class="btn-close" onclick="closeAdmin()" style="width: 45%">닫기</button>
+        </div>
+
+        <div id="resultArea" class="hidden">
+            <h2>결과 취합</h2>
+
+            <div id="resultList"
+                style="font-family:'GothicA1';
+                overflow:auto;
+                font-size:16px;
+                line-height: 1.6;
+                max-height: 12em;
+                text-align:justify;">
+            </div>
+
+            <button class="btn-main" onclick="copyResult()">복사하기</button>
+            <button class="btn-main" onclick="downloadCSV()">CSV 파일 다운로드</button>
+            <br><br>
+
+            <button class="btn-close" onclick="backToMenu()" style="width: 45%">이전</button>
+            <button class="btn-close" onclick="closeAdmin()" style="width: 45%">닫기</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const ADMIN_PASSWORD = "8180"; /* 관리자 비밀번호 */
+const TOTAL_TREASURE = 40; /* 총 보물 개수 */
+
+/* 현재 시간 */
+function updateClock() {
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2, "0");
+    const mm = String(now.getMinutes()).padStart(2, "0");
+    document.getElementById("clock").textContent = `${hh}:${mm}`;
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+
+/* 찾은 보물 / 남은 보물 개수 */
+function updateTreasureCount() {
+    const found = getCodes().length;
+    const remain = Math.max(TOTAL_TREASURE - found, 0);
+
+    document.getElementById("treasureCount").innerHTML =
+        `찾은 보물 개수: ${found}<br>남은 보물 개수: ${remain}`;
+}
+
+updateTreasureCount();
+
+/* 저장 데이터 */
+function getCodes() {
+    return JSON.parse(localStorage.getItem("codes")) || [];
+}
+function setCodes(codes) {
+    localStorage.setItem("codes", JSON.stringify(codes));
+}
+
+/* 저장 */
+function saveCode() {
+    const code = document.getElementById("code").value;
+
+    if (!/^\d{5}$/.test(code)) {
+        alert("5자리 숫자만 입력하세요");
+        return;
+    }
+
+    const codes = getCodes();
+    if (codes.some(c => c.code === code)) {
+        show("fail");
+        return;
+    }
+
+    codes.push({ code, time: Date.now() });
+    setCodes(codes);
+    updateTreasureCount();
+    show("success");
+}
+
+/* 초기화면 돌아가기 (15초) */
+let timer = null;
+
+function show(type) {
+    ["input","success","fail"].forEach(id =>
+        document.getElementById(id + "Screen").classList.add("hidden")
+    );
+    document.getElementById(type + "Screen").classList.remove("hidden");
+
+    if (type !== "input") startCountdown(type);
+}
+
+function startCountdown(type) {
+    let count = 15;
+    const el = document.getElementById(
+        type === "success" ? "countdownSuccess" : "countdownFail"
+    );
+
+    clearInterval(timer);
+    el.textContent = `${count}초 후 돌아갑니다.`;
+
+    timer = setInterval(() => {
+        count--;
+        el.textContent = `${count}초 후 돌아갑니다.`;
+        if (count === 0) {
+            clearInterval(timer);
+            goHome();
+        }
+    }, 1000);
+}
+
+function goHome() {
+    document.getElementById("code").value = "";
+    show("input");
+}
+
+
+/* 보물 개수 업데이트*/
+function updateTreasureCount() {
+    const found = getCodes().length;
+    const remain = Math.max(TOTAL_TREASURE - found, 0);
+
+    const foundStr = String(found).padStart(2, '0');
+    const remainStr = String(remain).padStart(2, '0');
+
+    const countEl = document.getElementById("treasureCount");
+    if (countEl) {
+        countEl.innerHTML = `찾은 보물 개수: ${foundStr}<br>남은 보물 개수: ${remainStr}`;
+    }
+
+    // 남은 보물이 0개일 때 팝업 표시
+    if (remain === 0) {
+        const overlay = document.getElementById("finishOverlay");
+        if (overlay) {
+            overlay.style.display = "flex";
+            overlay.classList.remove("hidden");
+        }
+    }
+}
+
+/* 보물 찾기 종료 팝업 닫기 함수 */
+function closeFinishPopup() {
+    const overlay = document.getElementById("finishOverlay");
+    if (overlay) {
+        overlay.style.display = "none";
+        overlay.classList.add("hidden");
+    }
+}
+
+/* 보물 찾기 종료 팝업 엔터키(닫기)
+document.addEventListener("keydown", function(e) {
+    const overlay = document.getElementById("finishOverlay");
+
+    if (e.key === "Enter" && overlay && !overlay.classList.contains("hidden")) {
+        closeFinishPopup();
+    }
+});
+*/
+
+
+/* 관리자 UI 초기화 */
+function resetAdminUI() {
+    document.getElementById("adminPanel").style.display = "none";
+    ["pwArea","adminMenu","editArea","editChoice","resultArea"]
+        .forEach(id => document.getElementById(id).classList.add("hidden"));
+    ["adminPw","editCode","newCode"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+    });
+}
+
+function openAdmin() {
+    resetAdminUI();
+    document.getElementById("adminPanel").style.display = "block";
+    document.getElementById("pwArea").classList.remove("hidden");
+}
+
+function closeAdmin() {
+    resetAdminUI();
+}
+
+/* 관리자 로그인 */
+function checkPw() {
+    if (document.getElementById("adminPw").value !== ADMIN_PASSWORD) {
+        alert("비밀번호 오류");
+        return;
+    }
+    document.getElementById("pwArea").classList.add("hidden");
+    document.getElementById("adminMenu").classList.remove("hidden");
+}
+
+
+/* 전체 초기화 */
+function resetAll() {
+    if (!confirm("모두 초기화할까요?")) return;
+    localStorage.removeItem("codes");
+    updateTreasureCount();
+    alert("초기화 완료");
+    closeAdmin();
+}
+
+/* 관리자 메인 메뉴로 돌아가기 (이전버튼) */
+function backToMenu() {
+    ["pwArea", "editArea", "editChoice", "resultArea"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add("hidden");
+    });
+
+    ["editCode", "newCode"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+    });
+
+    document.getElementById("adminMenu").classList.remove("hidden");
+}
+    
+function openEdit() {
+    document.getElementById("adminMenu").classList.add("hidden");
+    document.getElementById("editArea").classList.remove("hidden");
+}
+
+
+/* 기록 수정 선택 */
+function openEditChoice() {
+    const target = document.getElementById("editCode").value;
+    const codes = getCodes();
+
+    if (!/^\d{5}$/.test(target)) {
+        alert("5자리 학번을 입력하세요");
+        return;
+    }
+
+    const exists = codes.some(item => item.code === target);
+
+    if (!exists) {
+        alert("해당 학번 기록이 없습니다");
+        return;
+    }
+
+    document.getElementById("editArea").classList.add("hidden");
+    document.getElementById("editChoice").classList.remove("hidden");
+}
+
+/* 기록 삭제 */
+function deleteOne() {
+    const target = document.getElementById("editCode").value;
+    let codes = getCodes();
+    const exists = codes.some(item => item.code === target);
+
+    if (!exists) {
+        alert("해당 학번이 없습니다");
+        return;
+    }
+
+    if (!confirm("삭제할까요?")) return;
+
+    setCodes(codes.filter(item => item.code !== target));
+    updateTreasureCount();
+    alert("삭제 완료");
+    closeAdmin();
+}
+
+/* 다시 참여 가능 */
+function enableRetry() {
+    let codes = getCodes();
+    const target = document.getElementById("editCode").value;
+
+    setCodes(codes.filter(item => item.code !== target));
+    updateTreasureCount();
+    alert("다시 참여 가능하게 수정되었습니다");
+    closeAdmin();
+}
+
+/* 학번 변경 */
+function changeCode() {
+    const oldCode = document.getElementById("editCode").value;
+    const newCode = document.getElementById("newCode").value;
+    let codes = getCodes();
+
+    if (!/^\d{5}$/.test(newCode)) {
+        alert("변경할 학번은 5자리 숫자여야 합니다");
+        return;
+    }
+
+    if (codes.some(item => item.code === newCode)) {
+        alert("이미 등록된 학번입니다");
+        return;
+    }
+
+    // 1. 기존 학번 삭제
+    let newCodes = codes.filter(item => item.code !== oldCode);
+    
+    // 2. 새 학번 추가
+    newCodes.push({ code: newCode, time: Date.now() });
+
+    setCodes(newCodes);
+    updateTreasureCount();
+    alert("학번이 수정되었습니다");
+    closeAdmin();
+}
+
+
+/* 결과 취합 v1
+function openResult() {
+    document.getElementById("adminMenu").classList.add("hidden");
+    document.getElementById("resultArea").classList.remove("hidden");
+
+    const list = document.getElementById("resultList");
+    const codes = getCodes();
+
+    if (codes.length === 0) {
+        list.textContent = "아직 입력된 기록이 없습니다.";
+        return;
+    }
+
+    list.innerHTML =
+        "학번 / 입력 시각<br>" +
+        codes.map(c => {
+            const d = new Date(c.time);
+            const time =
+                `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")} ` +
+                `${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}:${String(d.getSeconds()).padStart(2,"0")}`;
+
+            return `${c.code}  ${time}`;
+        }).join("<br>");
+} */
+
+/* 결과 취합 v2 */
+function openResult() {
+    document.getElementById("adminMenu").classList.add("hidden");
+    document.getElementById("resultArea").classList.remove("hidden");
+
+    const list = document.getElementById("resultList");
+    const codes = getCodes();
+
+    if (codes.length === 0) {
+        list.textContent = "아직 입력된 기록이 없습니다.";
+        return;
+    }
+
+    let htmlContent = `
+        <div style="display:flex; justify-content:space-between; font-weight:bold; border-bottom:2px solid #333; margin-bottom:8px; padding-bottom:4px;">
+            <span>학번</span>
+            <span>입력 시각</span>
+        </div>
+    `;
+
+    htmlContent += codes.map(c => {
+        const d = new Date(c.time);
+        const time =
+            `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")} ` +
+            `${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}:${String(d.getSeconds()).padStart(2,"0")}`;
+
+        return `
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding: 2px 0;">
+                <span>${c.code}</span>
+                <span style="color:#555;">${time}</span>
+            </div>
+        `;
+    }).join("");
+
+    list.innerHTML = htmlContent;
+}
+
+function copyResult() {
+    navigator.clipboard.writeText(
+        document.getElementById("resultList").innerText
+    );
+    alert("복사 완료");
+}
+
+function downloadCSV() {
+    const codes = getCodes();
+    if (codes.length === 0) return alert("기록이 없습니다");
+
+    let csv = "학번,입력시각\n";
+    codes.forEach(c => {
+        const d = new Date(c.time);
+        const t =
+            `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")} ` +
+            `${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}:${String(d.getSeconds()).padStart(2,"0")}`;
+        csv += `${c.code},${t}\n`;
+    });
+
+    const blob = new Blob(["\uFEFF"+csv], { type:"text/csv;charset=utf-8;" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "보물찾기 리스트.csv";
+    a.click();
+}
+
+</script>
+
+
+<div id="credit">
+    향일고등학교 제14대 학생자치회 &lt;정보기록실&gt;
+    <span class="name">이성원</span>
+</div>
+
+
+</body>
+
+</html>

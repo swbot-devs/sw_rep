@@ -345,7 +345,7 @@ button {
 <div id="adminPanel">
     <div id="adminBox">
         <button id="closeX" onclick="closeAdmin()">✕</button>
-        <h3>관리자</h3>
+        <h2 id="adminTitle">관리자</h2>
 
         <div id="pwArea">
             <input inputmode="numeric" type="password" id="adminPw" placeholder="비밀번호"
@@ -366,8 +366,6 @@ button {
         </div>
 
         <div id="editArea" class="hidden">
-            <h2>기록 수정</h2>
-
             <input inputmode="numeric" id="editCode" maxlength="5" placeholder="학번 입력">
             <br>
 
@@ -397,7 +395,6 @@ button {
         </div>
 
         <div id="resultArea" class="hidden">
-            <h2>결과 취합</h2>
 
             <div id="resultList"
                 style="font-family:'GothicA1';
@@ -568,6 +565,7 @@ function openAdmin() {
     resetAdminUI();
     document.getElementById("adminPanel").style.display = "block";
     document.getElementById("pwArea").classList.remove("hidden");
+    document.getElementById("adminPw").focus();
 }
 
 function closeAdmin() {
@@ -582,6 +580,7 @@ function checkPw() {
     }
     document.getElementById("pwArea").classList.add("hidden");
     document.getElementById("adminMenu").classList.remove("hidden");
+    document.getElementById("adminTitle").innerText = "관리자";
 }
 
 
@@ -607,11 +606,13 @@ function backToMenu() {
     });
 
     document.getElementById("adminMenu").classList.remove("hidden");
+    document.getElementById("adminTitle").innerText = "관리자 메뉴";
 }
     
 function openEdit() {
     document.getElementById("adminMenu").classList.add("hidden");
     document.getElementById("editArea").classList.remove("hidden");
+    document.getElementById("adminTitle").innerText = "기록 수정";
 }
 
 
@@ -724,6 +725,7 @@ function openResult() {
 function openResult() {
     document.getElementById("adminMenu").classList.add("hidden");
     document.getElementById("resultArea").classList.remove("hidden");
+    document.getElementById("adminTitle").innerText = "결과 취합";
 
     const list = document.getElementById("resultList");
     const codes = getCodes();
