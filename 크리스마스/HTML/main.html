@@ -16,14 +16,6 @@
     font-style: normal;
 }
 
-/* Paperlogy 폰트 (크레딧 & 마감 팝업) */
-@font-face {
-    font-family: 'Paperlogy';
-    src: url('Paperlogy-5Medium.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-
 /* Gothic A1 폰트 (결과 취합) */
 @font-face {
     font-family: "GothicA1";
@@ -32,6 +24,13 @@
     font-style: normal;
 }
 
+/* Paperlogy 폰트 (크레딧 & 마감 팝업 & 보물 개수) */
+@font-face {
+    font-family: 'Paperlogy';
+    src: url('Paperlogy-5Medium.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 
 
 /* 기본 */
@@ -74,10 +73,10 @@ body {
     backdrop-filter: blur(4px);                   /* 배경 흐림 효과 */
 
     /* 텍스트 스타일 */
-    font-family: 'Cafe24Ssurround', sans-serif;
+    font-family: 'Paperlogy', sans-serif;
     font-size: 18px;
     text-align: center;                           /* 텍스트 가운데 정렬 */
-    line-height: 1.6;
+    line-height: 1.6;                             /* 줄 간격 */
     color: #fff;                                /* 글자색 흰색 */
     font-weight: bold;                            /* 글자 조금 더 두껍게 */
     z-index: 100;                                 /* 다른 요소보다 위에 표시 */
