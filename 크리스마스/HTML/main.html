@@ -550,15 +550,15 @@ document.addEventListener("keydown", function(e) {
 */
 
 
-/* 관리자 UI 초기화 */
-function resetAdminUI() {
-    document.getElementById("adminPanel").style.display = "none";
-    ["pwArea","adminMenu","editArea","editChoice","resultArea"]
-        .forEach(id => document.getElementById(id).classList.add("hidden"));
-    ["adminPw","editCode","newCode"].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = "";
-    });
+/* 관리자 로그인 */
+function checkPw() {
+    if (document.getElementById("adminPw").value !== ADMIN_PASSWORD) {
+        alert("비밀번호 오류");
+        return;
+    }
+    document.getElementById("pwArea").classList.add("hidden");
+    document.getElementById("adminMenu").classList.remove("hidden");
+    document.getElementById("adminTitle").innerText = "관리자 메뉴";
 }
 
 function openAdmin() {
@@ -572,18 +572,6 @@ function closeAdmin() {
     resetAdminUI();
 }
 
-/* 관리자 로그인 */
-function checkPw() {
-    if (document.getElementById("adminPw").value !== ADMIN_PASSWORD) {
-        alert("비밀번호 오류");
-        return;
-    }
-    document.getElementById("pwArea").classList.add("hidden");
-    document.getElementById("adminMenu").classList.remove("hidden");
-    document.getElementById("adminTitle").innerText = "관리자";
-}
-
-
 /* 전체 초기화 */
 function resetAll() {
     if (!confirm("모두 초기화할까요?")) return;
@@ -591,6 +579,18 @@ function resetAll() {
     updateTreasureCount();
     alert("초기화 완료");
     closeAdmin();
+}
+
+/* 관리자 UI 초기화 */
+function resetAdminUI() {
+    document.getElementById("adminPanel").style.display = "none";
+    ["pwArea","adminMenu","editArea","editChoice","resultArea"]
+        .forEach(id => document.getElementById(id).classList.add("hidden"));
+    ["adminPw","editCode","newCode"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+    });
+    document.getElementById("adminTitle").innerText = "관리자";
 }
 
 /* 관리자 메인 메뉴로 돌아가기 (이전버튼) */
