@@ -39,9 +39,11 @@ body {
     margin: 0;
     font-family: 'Cafe24Ssurround', sans-serif;
     background: linear-gradient(#0b3d2e, #145a32);
+    background-attachment: fixed;
+    background-size: cover;
     color: white;
     text-align: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .container {
@@ -225,6 +227,7 @@ button {
     inset: 0;
     background: rgba(0,0,0,0.8);
     display: none;
+    overflow-y: auto;
 }
 
 #adminBox {
@@ -800,3 +803,4 @@ function downloadCSV() {
 
 
 </html>
+
