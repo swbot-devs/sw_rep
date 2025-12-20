@@ -689,20 +689,25 @@ function openResult() {
     const codes = getCodes();
 
     if (codes.length === 0) {
-        list.textContent = "아직 입력된 기록이 없습니다.";
+        list.innerHTML = "아직 입력된 기록이 없습니다.";
         return;
     }
 
-    list.innerHTML =
-        "학번 / 입력 시각<br>" +
-        codes.map(c => {
-            const d = new Date(c.time);
-            const time =
-                `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")} ` +
-                `${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}:${String(d.getSeconds()).padStart(2,"0")}`;
+    html = codes.map(c => {
+        const d = new Date(c.time);
+        const time =
+            `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")} ` +
+            `${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}:${String(d.getSeconds()).padStart(2,"0")}`;
 
-            return `${c.code}  ${time}`;
-        }).join("<br>");
+        return `
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding: 4px 0;">
+                <span>${c.code}</span>
+                <span>${time}</span>
+            </div>
+        `;
+    }).join("");
+
+    list.innerHTML = html;
 }
 
 function copyResult() {
@@ -744,17 +749,4 @@ function downloadCSV() {
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
