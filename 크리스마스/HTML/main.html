@@ -694,7 +694,6 @@ function openResult() {
     }
 
     list.innerHTML =
-        "학번 / 입력 시각<br>" +
         codes.map(c => {
             const d = new Date(c.time);
             const time =
@@ -744,6 +743,7 @@ function downloadCSV() {
 </body>
 
 </html>
+
 
 
 
