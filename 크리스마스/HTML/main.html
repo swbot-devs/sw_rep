@@ -737,7 +737,7 @@ function openResult() {
     }
 
     let htmlContent = `
-        <div style="display:flex; justify-content:space-between; font-weight:bold; border-bottom:2px solid #333; margin-bottom:8px; padding-bottom:4px;">
+        <div style="display:flex; justify-content:space-between; font-weight:bold; border-bottom:2px solid #333; margin-bottom:8px; padding-bottom:4px; padding-right: 15px;">
             <span>학번</span>
             <span>입력 시각</span>
         </div>
@@ -750,7 +750,7 @@ function openResult() {
             `${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}:${String(d.getSeconds()).padStart(2,"0")}`;
 
         return `
-            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding: 2px 0;">
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding: 2px 0; padding-right: 15px;">
                 <span>${c.code}</span>
                 <span style="color:#555;">${time}</span>
             </div>
@@ -797,5 +797,6 @@ function downloadCSV() {
 
 
 </body>
+
 
 </html>
