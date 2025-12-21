@@ -16,6 +16,14 @@
     font-style: normal;
 }
 
+/* Paperlogy 폰트 (크레딧 & 마감 팝업) */
+@font-face {
+    font-family: 'Paperlogy';
+    src: url('Paperlogy-5Medium.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Gothic A1 폰트 (결과 취합) */
 @font-face {
     font-family: "GothicA1";
@@ -24,13 +32,6 @@
     font-style: normal;
 }
 
-/* Paperlogy 폰트 (크레딧 & 마감 팝업 & 보물 개수) */
-@font-face {
-    font-family: 'Paperlogy';
-    src: url('Paperlogy-5Medium.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
 
 
 /* 기본 */
@@ -38,11 +39,9 @@ body {
     margin: 0;
     font-family: 'Cafe24Ssurround', sans-serif;
     background: linear-gradient(#0b3d2e, #145a32);
-    background-attachment: fixed;
-    background-size: cover;
     color: white;
     text-align: center;
-    min-height: 100vh;
+    height: 100vh;
 }
 
 .container {
@@ -75,10 +74,10 @@ body {
     backdrop-filter: blur(4px);                   /* 배경 흐림 효과 */
 
     /* 텍스트 스타일 */
-    font-family: 'Paperlogy', sans-serif;
+    font-family: 'Cafe24Ssurround', sans-serif;
     font-size: 18px;
     text-align: center;                           /* 텍스트 가운데 정렬 */
-    line-height: 1.6;                             /* 줄 간격 */
+    line-height: 1.6;
     color: #fff;                                /* 글자색 흰색 */
     font-weight: bold;                            /* 글자 조금 더 두껍게 */
     z-index: 100;                                 /* 다른 요소보다 위에 표시 */
@@ -103,7 +102,7 @@ body {
     overflow: hidden;
     animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     text-align: center;
-    font-family: 'Paperlogy', sans-serif; 
+    font-family: 'Paperlogy', sans-serif;
 }
 
 .popup-header {
@@ -226,7 +225,6 @@ button {
     inset: 0;
     background: rgba(0,0,0,0.8);
     display: none;
-    overflow-y: auto;
 }
 
 #adminBox {
@@ -699,32 +697,7 @@ function changeCode() {
 }
 
 
-/* 결과 취합 v1
-function openResult() {
-    document.getElementById("adminMenu").classList.add("hidden");
-    document.getElementById("resultArea").classList.remove("hidden");
-
-    const list = document.getElementById("resultList");
-    const codes = getCodes();
-
-    if (codes.length === 0) {
-        list.textContent = "아직 입력된 기록이 없습니다.";
-        return;
-    }
-
-    list.innerHTML =
-        "학번 / 입력 시각<br>" +
-        codes.map(c => {
-            const d = new Date(c.time);
-            const time =
-                `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")} ` +
-                `${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}:${String(d.getSeconds()).padStart(2,"0")}`;
-
-            return `${c.code}  ${time}`;
-        }).join("<br>");
-} */
-
-/* 결과 취합 v2 */
+/* 결과 취합 */
 function openResult() {
     document.getElementById("adminMenu").classList.add("hidden");
     document.getElementById("resultArea").classList.remove("hidden");
@@ -802,4 +775,3 @@ function downloadCSV() {
 
 
 </html>
-
