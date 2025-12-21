@@ -34,6 +34,7 @@
 
 
 /* 기본 */
+html {height: 100vh;}
 body {
     margin: 0;
     font-family: 'Cafe24Ssurround', sans-serif;
@@ -58,36 +59,10 @@ body {
 }
 
 
-/* 찾은 보물 / 남은 보물 개수 */
-#treasureCount {
-    position: fixed;
-    right: 20px;
-    top: 20px;
-    
-    /* 박스 디자인 */
-    background: rgba(0, 0, 0, 0.25);            /* 어두운 반투명 배경 */
-    border: 2px solid rgba(255, 255, 255, 0.4); /* 연한 흰색 테두리 */
-    border-radius: 15px;                          /* 모서리 둥글게 */
-    padding: 12px 20px;                           /* 박스 안쪽 여백 */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);     /* 입체감 있는 그림자 */
-    backdrop-filter: blur(4px);                   /* 배경 흐림 효과 */
-
-    /* 텍스트 스타일 */
-    font-family: 'Cafe24Ssurround', sans-serif;
-    font-size: 18px;
-    text-align: center;                           /* 텍스트 가운데 정렬 */
-    line-height: 1.6;
-    color: #fff;                                /* 글자색 흰색 */
-    font-weight: bold;                            /* 글자 조금 더 두껍게 */
-    z-index: 100;                                 /* 다른 요소보다 위에 표시 */
-}
-
-
 #finishOverlay {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.85);
-    z-index: 9999;
     display: none;
     justify-content: center;
     align-items: center;
@@ -141,6 +116,29 @@ body {
 @keyframes popIn {
     from { transform: scale(0.8); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
+}
+
+
+/* 찾은 보물 / 남은 보물 개수 */
+#treasureCount {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+
+    background: rgba(0, 0, 0, 0.25);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 15px;
+    padding: 12px 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    backdrop-filter: blur(4px);
+
+    font-family: 'Cafe24Ssurround', sans-serif;
+    font-size: 18px;
+    text-align: center;
+    line-height: 1.6;
+    color: #fff;
+    font-weight: bold;
+    z-index: 100;
 }
 
 
@@ -735,15 +733,28 @@ function openResult() {
 }
 
 function copyResult() {
-    navigator.clipboard.writeText(
-        document.getElementById("resultList").innerText
-    );
+    const codes = getCodes();
+    if (codes.length === 0) {
+        alert("아직 입력된 기록이 없습니다.");
+        return;
+    }
+
+    const text = codes.map(c => {
+        const d = new Date(c.time);
+        const time =
+            `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")} ` +
+            `${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}:${String(d.getSeconds()).padStart(2,"0")}`;
+
+        return `${c.code} ${time}`;
+    }).join("\n");
+
+    navigator.clipboard.writeText(text);
     alert("복사 완료");
 }
 
 function downloadCSV() {
     const codes = getCodes();
-    if (codes.length === 0) return alert("기록이 없습니다");
+    if (codes.length === 0) return alert("아직 입력된 기록이 없습니다.");
 
     let csv = "학번,입력시각\n";
     codes.forEach(c => {
