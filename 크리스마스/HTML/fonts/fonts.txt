@@ -1,0 +1,11 @@
+Cafe24Ssurround
+https://noonnu.cc/font_page/669
+https://img.cafe24.com/csdstatic/freefonts/download/kr/Cafe24Ssurround-v2.0.zip
+
+GothicA1
+https://noonnu.cc/font_page/891
+https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/GothicA1-Medium.woff2
+
+Paperlogy
+https://noonnu.cc/font_page/1456
+https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2

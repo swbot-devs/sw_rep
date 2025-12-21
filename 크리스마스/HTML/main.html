@@ -3,23 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <title>향일고 제14대 학생자치회</title>
-<link rel="icon" href="향일고등학교.png" type="image/png">
+<link rel="icon" href="img/향일고정보기록실인.jpg" type="image/jpg">
 
 <style>
-/* 폰트 등록 */
-/* Cafe24 폰트 */
+/* 폰트 등록 // 폰트 다운로드 경로는 fonts/fonts.txt를 확인하여 주십시오. */
+/* Cafe24 폰트 (body) */
 @font-face {
     font-family: 'Cafe24Ssurround';
-    src: url('Cafe24Ssurround-v2.0.woff2') format('woff2'),
-         url('Cafe24Ssurround-v2.0.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-/* Paperlogy 폰트 (크레딧 & 마감 팝업) */
-@font-face {
-    font-family: 'Paperlogy';
-    src: url('Paperlogy-5Medium.woff2') format('woff2');
+    src: url('fonts/Cafe24Ssurround-v2.0.woff2') format('woff2'),
+         url('fonts/Cafe24Ssurround-v2.0.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -27,11 +19,18 @@
 /* Gothic A1 폰트 (결과 취합) */
 @font-face {
     font-family: "GothicA1";
-    src: url('GothicA1-Medium.woff2') format('woff2');
+    src: url('fonts/GothicA1-Medium.woff2') format('woff2');
     font-weight: 500;
     font-style: normal;
 }
 
+/* Paperlogy 폰트 (크레딧 & 마감 팝업) */
+@font-face {
+    font-family: 'Paperlogy';
+    src: url('fonts/Paperlogy-5Medium.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 
 
 /* 기본 */
@@ -339,7 +338,7 @@ button {
 
 <!-- 관리자 버튼 -->
 <button id="adminBtn" onclick="openAdmin()">
-    <img src="향일고등학교.png" alt="설정">
+    <img src="img/향일고등학교.png" alt="설정">
 </button>
 
 <!-- 관리자 패널 -->
