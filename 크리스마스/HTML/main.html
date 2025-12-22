@@ -741,11 +741,6 @@ function openResult() {
 
 function copyResult() {
     const codes = getCodes();
-    if (codes.length === 0) {
-        alert("아직 입력된 기록이 없습니다.");
-        return;
-    }
-
     const text = codes.map(c => {
         const d = new Date(c.time);
         const time =
@@ -761,7 +756,6 @@ function copyResult() {
 
 function downloadCSV() {
     const codes = getCodes();
-    if (codes.length === 0) return alert("아직 입력된 기록이 없습니다.");
 
     let csv = "학번,입력시각\n";
     codes.forEach(c => {
@@ -793,6 +787,7 @@ function downloadCSV() {
 
 
 </html>
+
 
 
 
