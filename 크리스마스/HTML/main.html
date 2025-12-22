@@ -371,8 +371,10 @@ button {
             <button class="btn-main" onclick="deleteOne()">삭제</button>
             <br><br>
 
-            <button class="btn-close" onclick="backToMenu()" style="width: 45%">이전</button>
-            <button class="btn-close" onclick="closeAdmin()" style="width: 45%">닫기</button>
+            <div id="resultActionBtns">
+                <button class="btn-close" onclick="backToMenu()" style="width: 45%">이전</button>
+                <button class="btn-close" onclick="closeAdmin()" style="width: 45%">닫기</button>
+            </div>           
         </div>
 
         <div id="editChoice" class="hidden">
@@ -790,4 +792,5 @@ function downloadCSV() {
 
 
 </html>
+
 
