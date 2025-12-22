@@ -699,14 +699,17 @@ function openResult() {
     document.getElementById("adminMenu").classList.add("hidden");
     document.getElementById("resultArea").classList.remove("hidden");
     document.getElementById("adminTitle").innerText = "결과 취합";
-
-    const list = document.getElementById("resultList");
+    
     const codes = getCodes();
+    const list = document.getElementById("resultList");
+    const btns = document.getElementById("resultActionBtns");
 
     if (codes.length === 0) {
         list.textContent = "아직 입력된 기록이 없습니다.";
+        if (btns) btns.style.display = "none";
         return;
     }
+    if (btns) btns.style.display = "block";
 
     let htmlContent = `
         <div style="display:flex; justify-content:space-between; font-weight:bold; border-bottom:2px solid #333; margin-bottom:8px; padding-bottom:4px; padding-right: 15px;">
@@ -787,3 +790,4 @@ function downloadCSV() {
 
 
 </html>
+
