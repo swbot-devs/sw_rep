@@ -371,10 +371,8 @@ button {
             <button class="btn-main" onclick="deleteOne()">삭제</button>
             <br><br>
 
-            <div id="resultActionBtns">
-                <button class="btn-close" onclick="backToMenu()" style="width: 45%">이전</button>
-                <button class="btn-close" onclick="closeAdmin()" style="width: 45%">닫기</button>
-            </div>           
+            <button class="btn-close" onclick="backToMenu()" style="width: 45%">이전</button>
+            <button class="btn-close" onclick="closeAdmin()" style="width: 45%">닫기</button>
         </div>
 
         <div id="editChoice" class="hidden">
@@ -395,7 +393,6 @@ button {
         </div>
 
         <div id="resultArea" class="hidden">
-
             <div id="resultList"
                 style="font-family:'GothicA1';
                 overflow:auto;
@@ -405,8 +402,10 @@ button {
                 text-align:justify;">
             </div>
 
-            <button class="btn-main" onclick="copyResult()">복사하기</button>
-            <button class="btn-main" onclick="downloadCSV()">CSV 파일 다운로드</button>
+			<div id="resultActionBtns">
+				<button class="btn-main" onclick="copyResult()">복사하기</button>
+				<button class="btn-main" onclick="downloadCSV()">CSV 파일 다운로드</button>
+			</div>
             <br><br>
 
             <button class="btn-close" onclick="backToMenu()" style="width: 45%">이전</button>
@@ -792,5 +791,6 @@ function downloadCSV() {
 
 
 </html>
+
 
 
