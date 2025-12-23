@@ -532,7 +532,7 @@ function updateTreasureCount() {
     const countEl = document.getElementById("treasureCount");
     if (countEl) {
         countEl.innerHTML = `찾은 보물 개수: ${foundStr}<br>
-		<span style=(remain <= 10) ? "color: #ff4444;" : "";>남은 보물 개수: ${remainStr}</span>`;
+		<span style="${(remain <= 10) ? 'color: #ff4444;' : ''}">남은 보물 개수: ${remainStr}</span>
     }
 
     // 남은 보물이 0개일 때 팝업 표시
