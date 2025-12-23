@@ -184,10 +184,6 @@ button {
     margin-top: 50px;
 }
 
-#banScreen .result {
-    color: #ffcccc;
-}
-
 
 .countdown {
     margin-top: 15px;
@@ -330,7 +326,7 @@ button {
 </div>
 
 <div class="container hidden" id="banScreen">
-    <div class="result">🚫<br>이용이 제한된<br>학번입니다.</div>
+    <div class="result">❌<br>이용이 제한된<br>학번입니다.</div>
     <p id="countdownBan" class="countdown"></p>
     <button onclick="goHome()">돌아가기</button>
 </div>
@@ -432,7 +428,8 @@ button {
 
 <script>
 const ADMIN_PASSWORD = "8180"; /* 관리자 비밀번호 */
-const RESTRICTED_CODES = ["99999", "11111"]; /* 블랙리스트 */
+const RESTRICTED_CODES = ["20426","10301","20121","20501","10432",
+						  "20532","20313","20534","10232","20409","20809","20421","10214","20305","10712","20102","10403","20111","10425","20818","20108"]; /* 블랙리스트 */
 const TOTAL_TREASURE = 40; /* 총 보물 개수 */
 
 /* 현재 시간 */
@@ -496,8 +493,7 @@ let timer = null;
 
 function show(type) {
     ["input","success","fail", "ban"].forEach(id =>
-        document.getElementById(id + "Screen").classList.add("hidden")
-    );
+        document.getElementById(id + "Screen").classList.add("hidden") );
     document.getElementById(type + "Screen").classList.remove("hidden");
 
     if (type !== "input") startCountdown(type);
@@ -809,6 +805,7 @@ function downloadCSV() {
 
 
 </html>
+
 
 
 
