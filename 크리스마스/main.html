@@ -7,15 +7,14 @@
 <title>향일고 제14대 학생자치회</title>
 <link rel="icon" href="img/향일고정보기록실인.jpg" type="image/jpg">
 <link rel="preload" href="fonts/GothicA1-Medium.woff2" as="font" type="font/woff2" crossorigin>
-<head>
 
 <style>
-/* 폰트 등록 // 폰트 다운로드 경로는 fonts/fonts.txt를 확인하여 주십시오. */
-/* Cafe24 폰트 (body) */
-@font-face {
+    /* 폰트 등록 // 폰트 다운로드 경로는 fonts/fonts.txt를 확인하여 주십시오. */
+    /* Cafe24 폰트 (body) */
+    @font-face {
     font-family: 'Cafe24Ssurround';
     src: url('fonts/Cafe24Ssurround-v2.0.woff2') format('woff2'),
-         url('fonts/Cafe24Ssurround-v2.0.woff') format('woff');
+    url('fonts/Cafe24Ssurround-v2.0.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -38,18 +37,41 @@
 
 
 /* 기본 */
-html {height: 100vh;}
+html,body {margin: 0;
+           height: 100%;}
 body {
-    margin: 0;
     font-family: 'Cafe24Ssurround', sans-serif;
     background: linear-gradient(#0b3d2e, #145a32);
     color: white;
     text-align: center;
-    height: 100vh;
+}
+.container {padding-top: 120px;}
+.hidden {display: none;}
+
+h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
 }
 
-.container {
-    padding-top: 120px;
+input {
+    font-size: 28px;
+    padding: 12px;
+    width: 220px;
+    text-align: center;
+    border-radius: 10px;
+    border: none;
+    font-family: inherit;
+}
+
+button {
+    font-size: 22px;
+    padding: 12px 30px;
+    margin-top: 15px;
+    border-radius: 30px;
+    border: none;
+    background: #e74c3c;
+    color: white;
+    font-family: inherit;
 }
 
 
@@ -62,7 +84,7 @@ body {
     opacity: 0.9;
 }
 
-
+/* 남은 보물이 0개일 때 팝업 */
 #finishOverlay {
     position: fixed;
     inset: 0;
@@ -146,44 +168,11 @@ body {
 }
 
 
-/* 공통 요소 */
-h1 {
-    font-size: 42px;
-    margin-bottom: 10px;
-}
-
-input {
-    font-size: 28px;
-    padding: 12px;
-    width: 220px;
-    text-align: center;
-    border-radius: 10px;
-    border: none;
-    font-family: inherit;
-}
-
-button {
-    font-size: 22px;
-    padding: 12px 30px;
-    margin-top: 15px;
-    border-radius: 30px;
-    border: none;
-    background: #e74c3c;
-    color: white;
-    font-family: inherit;
-}
-
-.hidden {
-    display: none;
-}
-
-
 /* 결과 화면 */
 .result {
     font-size: 60px;
     margin-top: 50px;
 }
-
 
 .countdown {
     margin-top: 15px;
@@ -258,8 +247,8 @@ button {
     padding: 14px;
     width: 100%;
     border-radius: 30px;
-    border: none;
     margin-top: 10px;
+    border: none;
 }
 
 .btn-close {
@@ -428,9 +417,9 @@ button {
 
 <script>
 const ADMIN_PASSWORD = "8180"; /* 관리자 비밀번호 */
+const TOTAL_TREASURE = 40; /* 총 보물 개수 */
 const RESTRICTED_CODES = ["20426","10301","20121","20501","10432",
 						  "20532","20313","20534","10232","20409","20809","20421","10214","20305","10712","20102","10403","20111","10425","20818","20108"]; /* 블랙리스트 */
-const TOTAL_TREASURE = 40; /* 총 보물 개수 */
 
 /* 현재 시간 */
 function updateClock() {
@@ -442,16 +431,6 @@ function updateClock() {
 
 updateClock();
 setInterval(updateClock, 1000);
-
-/* 찾은 보물 / 남은 보물 개수 */
-function updateTreasureCount() {
-    const found = getCodes().length;
-    const remain = Math.max(TOTAL_TREASURE - found, 0);
-
-    document.getElementById("treasureCount").innerHTML =
-        `찾은 보물 개수: ${found}<br>남은 보물 개수: ${remain}`;
-}
-
 updateTreasureCount();
 
 /* 저장 데이터 */
