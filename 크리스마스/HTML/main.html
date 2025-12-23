@@ -184,6 +184,11 @@ button {
     margin-top: 50px;
 }
 
+#banScreen .result {
+    color: #ffcccc;
+}
+
+
 .countdown {
     margin-top: 15px;
     font-size: 18px;
@@ -324,6 +329,12 @@ button {
     <button onclick="goHome()">돌아가기</button>
 </div>
 
+<div class="container hidden" id="banScreen">
+    <div class="result">🚫<br>이용이 제한된<br>학번입니다.</div>
+    <p id="countdownBan" class="countdown"></p>
+    <button onclick="goHome()">돌아가기</button>
+</div>
+
 
 <div id="finishOverlay" class="hidden">
     <div class="popup-box">
@@ -421,6 +432,7 @@ button {
 
 <script>
 const ADMIN_PASSWORD = "8180"; /* 관리자 비밀번호 */
+const RESTRICTED_CODES = ["99999", "11111"]; /* 블랙리스트 */
 const TOTAL_TREASURE = 40; /* 총 보물 개수 */
 
 /* 현재 시간 */
@@ -468,6 +480,11 @@ function saveCode() {
         return;
     }
 
+	if (RESTRICTED_CODES.includes(code)) {
+        show("ban");
+        return;
+    }
+
     codes.push({ code, time: Date.now() });
     setCodes(codes);
     updateTreasureCount();
@@ -478,7 +495,7 @@ function saveCode() {
 let timer = null;
 
 function show(type) {
-    ["input","success","fail"].forEach(id =>
+    ["input","success","fail", "ban"].forEach(id =>
         document.getElementById(id + "Screen").classList.add("hidden")
     );
     document.getElementById(type + "Screen").classList.remove("hidden");
@@ -488,9 +505,11 @@ function show(type) {
 
 function startCountdown(type) {
     let count = 15;
-    const el = document.getElementById(
-        type === "success" ? "countdownSuccess" : "countdownFail"
-    );
+
+    let targetId = "";
+    if (type === "success") targetId = "countdownSuccess";
+    else if (type === "fail") targetId = "countdownFail";
+    else if (type === "ban") targetId = "countdownBan";
 
     clearInterval(timer);
     el.textContent = `${count}초 후 돌아갑니다.`;
@@ -790,6 +809,7 @@ function downloadCSV() {
 
 
 </html>
+
 
 
 
