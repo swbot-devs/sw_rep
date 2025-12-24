@@ -295,7 +295,7 @@ button {
 <div class="container" id="inputScreen">
     <h1>🎄 크리스마스 보물찾기 🎄</h1>
     <h2>학번을 입력하세요</h2>
-    <input inputmode="password" id="code" maxlength="5" placeholder="00000"
+    <input inputmode="numeric" id="code" maxlength="5" placeholder="00000"
     onkeydown="if(event.key === 'Enter') saveCode()">
     <br>
     <button onclick="saveCode()">확인</button>
@@ -364,7 +364,7 @@ button {
         </div>
 
         <div id="editArea" class="hidden">
-            <input inputmode="password" id="editCode" maxlength="5" placeholder="학번 입력">
+            <input inputmode="numeric" id="editCode" maxlength="5" placeholder="학번 입력">
             <br>
 
             <button class="btn-main" onclick="openEditChoice()">수정</button>
@@ -382,7 +382,7 @@ button {
             <br>
 
             <p>변경할 학번</p>
-            <input inputmode="password" id="newCode" maxlength="5" placeholder="00000"
+            <input inputmode="numeric" id="newCode" maxlength="5" placeholder="00000"
             onkeydown="if(event.key === 'Enter') changeCode()">
 
             <button class="btn-main" onclick="changeCode()">학번 변경</button>
